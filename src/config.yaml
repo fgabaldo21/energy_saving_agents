@@ -1,0 +1,55 @@
+xmpp:
+  server: "localhost"
+
+  manager:
+    jid: "manager@localhost"
+    password: "password"
+
+  devices:
+    - name: "dishwasher"
+      jid: "dishwasher@localhost"
+      password: "password"
+      power_kw: 1.5
+      duration_minutes: 90
+      priority: 1
+
+    - name: "washing_machine"
+      jid: "washing_machine@localhost"
+      password: "password"
+      power_kw: 2.0
+      duration_minutes: 120
+      priority: 2
+
+    - name: "ev_charger"
+      jid: "ev_charger@localhost"
+      password: "password"
+      power_kw: 7.0
+      duration_minutes: 240
+      priority: 0
+
+    - name: "dryer"
+      jid: "dryer@localhost"
+      password: "password"
+      power_kw: 3.0
+      duration_minutes: 60
+      priority: 3
+
+    - name: "underfloor_heating"
+      jid: "underfloor_heating@localhost"
+      password: "password"
+      power_kw: 4.0
+      duration_minutes: 180
+      priority: 4
+
+    - name: "water_heater"
+      jid: "water_heater@localhost"
+      password: "password"
+      power_kw: 5.0
+      duration_minutes: 150
+      priority: 5
+
+simulation:
+  start_hour: 17
+  end_hour: 8
+  max_power_kw: 10.0
+  tick_duration: 1.0
