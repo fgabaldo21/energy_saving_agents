@@ -52,4 +52,4 @@ simulation:
   start_hour: 17
   end_hour: 8
   max_power_kw: 10.0
-  tick_duration: 1.0
+  tick_duration: 10.0
