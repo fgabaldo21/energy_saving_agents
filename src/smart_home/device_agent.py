@@ -10,6 +10,7 @@ class DeviceAgent(Agent):
         super().__init__(jid, password, *args, **kwargs)
         self.device_config = device_config
         self.manager_jid = global_config['xmpp']['manager']['jid']
+        self.global_config = global_config
 
     async def setup(self):
         print(f"[Device] {self.device_config['name']} is ready.")
@@ -50,7 +51,7 @@ class DeviceAgent(Agent):
         async def run(self):
             duration = self.agent.device_config['duration_minutes']
             real_seconds = duration / self.agent.global_config['simulation']['tick_duration']
-            print(f"[Device] {self.agent.device_config['name']} is working... (duration: {duration}h)")
+            print(f"[Device] {self.agent.device_config['name']} is working... (duration: {duration}min)")
             
             await asyncio.sleep(real_seconds)
             

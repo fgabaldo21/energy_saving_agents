@@ -21,8 +21,10 @@ async def main():
         device_agents.append(device_agent)
 
     try:
-        while True:
+        while home_manager_agent.is_alive():
             await asyncio.sleep(1)
+        
+        print("Home Manager has stopped. Shutting down device agents...")
     except KeyboardInterrupt:
         print("Stopping agents...")
     finally:

@@ -10,6 +10,9 @@ class HomeManagerAgent(agent.Agent):
         self.config = config
         self.current_load = 0.0
         self.max_load = config['simulation']['max_power_kw']
+        
+        self.total_devices = len(config['xmpp']['devices'])
+        self.finished_devices = 0
 
     async def setup(self):
         print(f"[HomeManager] started as {self.jid}. Max load: {self.max_load} kW")
@@ -32,6 +35,7 @@ class HomeManagerAgent(agent.Agent):
                     
                     if self.agent.current_load + device_power <= self.agent.max_load:
                         self.agent.current_load += device_power
+                        reply.set_metadata("performative", "APPROVED")
                         reply.body = json.dumps({'status': 'APPROVED', "current_total": self.agent.current_load})
                         print(f"[HomeManager] Approved request from {msg.sender}. Current load: {self.agent.current_load} kW")
                         
@@ -44,7 +48,13 @@ class HomeManagerAgent(agent.Agent):
                     
                 elif performative == 'INFORM' and content.get('status') == "finished":
                     self.agent.current_load -= device_power
+                    self.agent.finished_devices += 1
                     print(f"[HomeManager] Device {msg.sender} finished. Current load: {self.agent.current_load} kW")
+                    print(f"[HomeManager] Progress: {self.agent.finished_devices}/{self.agent.total_devices} devices finished.")
+                    
+                    if self.agent.finished_devices >= self.agent.total_devices:
+                        print("[HomeManager] All devices have finished their tasks.")
+                        await self.agent.stop()
                     
                 else:
                     print(f"[HomeManager] Unknown performative: {performative}")
